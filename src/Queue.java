@@ -1,8 +1,10 @@
 import java.lang.reflect.Array;
+import java.util.Scanner;
 
 /**
  * Queue Program using Generic Concept
  * Virliansi - 151402076
+ * Edited: Muhammad Arka Kharisma (151402081) 04/04/2017
  */
 
 public class Queue<T> {
@@ -16,35 +18,76 @@ public class Queue<T> {
         element = (T[]) Array.newInstance(namaClass, size);
     }
 
-    public static void main(String[] args)
-    {
-        Integer pil;
-        Queue <String> queue = new Queue<>(String.class, 10);
-
-        queue.enqueue("Praktikum");
-        queue.enqueue("Pemrograman");
-        queue.enqueue("Java");
-
-        System.out.println("Dequeue pertama:");
-        queue.dequeue();
-        System.out.println("  ");
-        System.out.println("Dequeue kedua:");
-        queue.dequeue();
-    }
-
     public void enqueue(T data)
     {
-        pointer++;
-        element[pointer] = data;
+        if(pointer < (sizeArray - 1))
+        {
+            pointer++;
+            element[pointer] = data;
+        }
+        else
+        {
+            System.out.println("Queue Sudah Penuh");
+        }
     }
 
     public void dequeue()
     {
-        System.out.print(element[0]);
-        for (Integer i = 0; i <= pointer; i++) {
-            element[i] = element[i + 1];
+        if(pointer >= 0) {
+            for (Integer i = 0; i <= pointer; i++) {
+                element[i] = element[i + 1];
+            }
+            pointer--;
         }
-        pointer--;
+        else
+        {
+            System.out.println("Queue Sudah Kosong");
+        }
+    }
+    public void viewQueue()
+    {
+        for(Integer i = 0; i <= pointer; i++)
+        {
+            System.out.print(element[i]);
+            System.out.print(" ");
+        }
+    }
 
+    public void clearQueue()
+    {
+        pointer = -1;
+    }
+    
+    public static void main(String[] args)
+    {
+        Integer pil;
+        Queue <String> queue = new Queue<>(String.class, 10);
+        Scanner scanner = new Scanner(System.in);
+
+        do
+        {
+            queue.viewQueue();
+            System.out.println();
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Clear");
+            System.out.println("4. Exit");
+            pil = scanner.nextInt();
+            if(pil > 0 && pil < 4)
+            {
+                if (pil == 1)
+                {
+                    String data;
+                    System.out.print("Masukkan Data: ");
+                    data = scanner.next();
+                    queue.enqueue(data);
+                } else if (pil == 2)
+                    queue.dequeue();
+                else if (pil == 3)
+                    queue.clearQueue();
+            }
+            else
+                break;
+        }while(true);
     }
 }
